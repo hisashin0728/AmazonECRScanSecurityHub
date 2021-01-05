@@ -21,7 +21,7 @@
 
 ## Install
 
-* Upload Lambda code (lambda_function.zip) to your Amazon S3 bucket.
+* Upload Lambda code ([lambda_function.zip](https://github.com/hisnakad/AmazonECRScanSecurityHub/blob/main/lambda_function.zip)) to your Amazon S3 bucket.
 * Run CloudFormation template
     * Check your S3 Bucket, uploaded Lambda function.
         * ![Install-parameter](image/ECRScanSHUB-image2.png "parameter")
