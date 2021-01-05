@@ -10,8 +10,9 @@
 
 ## Image
 
-* Amazon ECR -----> CloudWatch Event (EventBridge) ----(Trigger)----> Lambda ----> Security Hub
-    * [![diagram](image/ECRScanSHUB-image1.png "images")]
+* Here is a image of this project.
+* Amazon ECR --> CloudWatch Event --(Trigger)--> Lambda Function --> Security Hub
+    * ![diagram](image/ECRScanSHUB-image1.png "images")
 * Uses following boto3 function via Lambda
     * [ecr.describe_image_scan_findings](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ecr.html)
     * [securityhub.batch_import_findings](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/securityhub.html)
@@ -21,21 +22,21 @@
 * Upload Lambda code (lambda_function.zip) to your Amazon S3 bucket.
 * Run CloudFormation template
     * Check your S3 Bucket, uploaded Lambda function.
-        * [Image: image.png]
+        * ![Install-parameter](image/ECRScanSHUB-image2.png "parameter")
     * When you run the CloudFormation template, following resources will be created.
         * Lambda function
         * IAM role for Lambda function
-        * CloudWatch Event - Amazon EventBridge, and triggered confuguration at Lambda.
-        * [Image: image.png]
+        * CloudWatch Event - Amazon EventBridge, and triggered configuration at Lambda.
+        * ![Install-parameter](image/ECRScanSHUB-image2.png "parameter")
     * Please check the Lambda function and python code and event trigger.
-        * [Image: image.png]
+        * 
 
 ## How to test
 
 * When you finished install, this project will detect scan event of Amazon ECR and automatically sending vulnerabilities to SecurityHub as ASFF format.
 * Try vulnerability scanning at AmazonECR, and check running Lambda function.
 * The sample code detects "CRITICAL" and "HIGH" severities of vulnerabilities, and sendings ASFF format to AWS Security Hub.
-    * [Image: image.png]
+    * ![Test-log](image/ECRScanSHUB-image3.png "testlog")
 * Check findings, Personal and Default in the findings of Security Hub. 
     * [Image: image.png]
 * Here is a sample ASFF Format
