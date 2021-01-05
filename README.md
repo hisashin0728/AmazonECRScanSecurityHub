@@ -1,7 +1,6 @@
 # Sending Amazon ECR Scan result to AWS Security Hub
 
 
-* * *
 
 ## About
 
