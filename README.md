@@ -1,4 +1,4 @@
-# Sending Amazon ECR Scan result to AWS Security Hub
+# Sending Amazon ECR Scan result to AWS Security Hub by ASFF format
 
 
 
