@@ -5,7 +5,7 @@
 ## About
 
 * This project assumes sending vulnerabilities of Amazon ECR Scanning to AWS Security Hub via ASFF format.
-* Currently, Amazon ECR provides scanning vulnerabilities, but RCR cannot send AWS Security Hub.
+* Currently, Amazon ECR provides scanning vulnerabilities, but ECR Scan result cannot support sending to AWS Security Hub.
 * This project provides Lambda Python code to import scan data of Amazon ECR and send AWS Security Hub via ASFF format.
 
     * ![diagram](image/ECRScanSHUB-asff.png)
