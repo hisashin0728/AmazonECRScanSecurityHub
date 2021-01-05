@@ -11,7 +11,7 @@
 ## Image
 
 * Amazon ECR -----> CloudWatch Event (EventBridge) ----(Trigger)----> Lambda ----> Security Hub
-    * [Image: image.png]
+    * [![diagram](image/ECRScanSHUB-image1.png "images")]
 * Uses following boto3 function via Lambda
     * [ecr.describe_image_scan_findings](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ecr.html)
     * [securityhub.batch_import_findings](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/securityhub.html)
