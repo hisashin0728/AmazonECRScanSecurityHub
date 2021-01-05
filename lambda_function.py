@@ -29,7 +29,7 @@ def lambda_handler(event, context):
     )
     findings = response['imageScanFindings']['findings']
 
-    # write Amazon ECR result included in CRITICAL, HIGH, MEDIUM only
+    # write Amazon ECR result included in CRITICAL, HIGH only
     print('Step3: Picking up CRITICAL and HIGH Severities from ECR result...')
     output = []
     for a in findings:
