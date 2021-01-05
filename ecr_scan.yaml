@@ -1,0 +1,77 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: This Template will create Lambda Function for Amazon ECR Scan to Security Hub
+Parameters:
+  PythonS3:
+    Type: "String"
+    Description: "Input S3 bucket that uploaded Lambda code"
+    Default: "s3bucket_of_yourlambda"
+  PythonCode:
+    Type: "String"
+    Description: "Check the python filename(default is lambda_function.py)"
+    Default: "lambda_function.zip"  
+Resources:
+  # Lambda作成
+  AmazonECRScan2SecurityHub:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: AmazonECRScan2SecurityHub
+      Description: Get Amazon ECR Scan report and sent to Security Hub as converting ASFF format
+      Handler: lambda_function.lambda_handler
+      MemorySize: 128
+      Runtime: python3.7
+      Timeout: 180
+      Code:
+        S3Bucket: !Ref PythonS3
+        S3Key: !Ref PythonCode
+      Role:
+        Fn::GetAtt:
+        - LambdaRole
+        - Arn
+  # Lambdaのロール作成
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Policies:
+      - PolicyName: AmazonECRScan2SecurityHub-Policy
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - cloudwatch:PutMetricData
+            - ecr:DescribeImageScanFindings
+            - securityhub:BatchImportFindings
+            Resource: '*'
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource: '*'  
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal: { Service: lambda.amazonaws.com }
+          Action:
+          - sts:AssumeRole
+  ECREventRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Description: CloudWatch Events rule for SecurityHub to receive Amazon ECR Scan
+      EventPattern:
+        source:
+          - aws.ecr
+        detail-type:
+          - ECR Image Scan
+      State: ENABLED
+      Targets:
+        - Arn: !GetAtt AmazonECRScan2SecurityHub.Arn
+          Id: AmazonECRSHubTarget
+  LambdaInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties: 
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref AmazonECRScan2SecurityHub
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt ECREventRule.Arn
