@@ -8,6 +8,8 @@
 * Currently, Amazon ECR provides scanning vulnerabilities, but RCR cannot send AWS Security Hub.
 * This project provides Lambda Python code to import scan data of Amazon ECR and send AWS Security Hub via ASFF format.
 
+    * ![diagram](image/ECRScanSHUB-asff.png)
+
 ## Image
 
 * Here is a image of this project.
@@ -27,19 +29,17 @@
         * Lambda function
         * IAM role for Lambda function
         * CloudWatch Event - Amazon EventBridge, and triggered configuration at Lambda.
-        * ![Install-parameter](image/ECRScanSHUB-image2.png "parameter")
     * Please check the Lambda function and python code and event trigger.
-        * 
 
 ## How to test
 
 * When you finished install, this project will detect scan event of Amazon ECR and automatically sending vulnerabilities to SecurityHub as ASFF format.
 * Try vulnerability scanning at AmazonECR, and check running Lambda function.
 * The sample code detects "CRITICAL" and "HIGH" severities of vulnerabilities, and sendings ASFF format to AWS Security Hub.
-    * ![Test-log](image/ECRScanSHUB-image3.png "testlog")
+    * ![testlog](image/ECRScanSHUB-debug_cwl.jpg "testlog")
 * Check findings, Personal and Default in the findings of Security Hub. 
-    * [Image: image.png]
 * Here is a sample ASFF Format
+    * ![asffdetail](image/ECRScanSHUB-asff_detail.png "asffdetail")
 
 ```
 {
